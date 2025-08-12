@@ -1,4 +1,4 @@
-module srv
+module github.com/mynamesishuman/onehost
 
 go 1.24
 

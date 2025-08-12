@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -25,8 +24,6 @@ docs/UserGet200Response.md
 docs/UserServersGet200Response.md
 docs/UserServersGet200ResponseServersInner.md
 git_push.sh
-go.mod
-go.sum
 model__server__location__configurations_get_200_response.go
 model__server__location__configurations_get_200_response_configurations_inner.go
 model__server__location__configurations_get_200_response_configurations_inner_specs.go
@@ -45,5 +42,4 @@ model__user__get_200_response.go
 model__user_servers__get_200_response.go
 model__user_servers__get_200_response_servers_inner.go
 response.go
-test/api_default_test.go
 utils.go

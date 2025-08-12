@@ -5,7 +5,7 @@
   "generateMarshalJSON": true,
   "generateUnmarshalJSON": true,
   "hideGenerationTimestamp": true,
-  "isGoSubmodule": false,
+  "isGoSubmodule": true,
   "packageName": "onehost",
   "packageVersion": "0.0.1",
   "prependFormOrBodyParameters": false,
@@ -13,6 +13,6 @@
   "useDefaultValuesForRequiredVars": false,
   "useOneOfDiscriminatorLookup": false,
   "withAWSV4Signature": false,
-  "withGoMod": true,
+  "withGoMod": false,
   "withXml": false
 }

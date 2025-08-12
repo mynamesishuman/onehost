@@ -1,50 +1,26 @@
 package main
 
 import (
-	"flag"
+	"context"
 	"fmt"
-	"io"
 	"net/http"
-	"srv/internal/rest"
-	onehost "github.com/mynamesishuman/onehost"
+	"os"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	onehost "github.com/mynamesishuman/onehost/openapi/client/onehost"
 )
 
 func main() {
-	var (
+	/*var (
 		baseUrl = flag.String("baseUrl", "", "Base URL")
 		token   = flag.String("token", "", "Token")
 	)
 
-	flag.Parse()
-
-	/*headers := make(map[string]string)
-	headers["Content-Type"] = "application/json"
-	headers["Authorization"] = "Bearer " + *token
-
-	options := rest.NewOptions(
-		*baseUrl,
-		headers,
-		30,
-	)
-	httpClient := rest.NewClient(options)
-	res, err := httpClient.Get("/server/locations")
-
-	if err != nil {
-		panic(err)
-	}
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(string(body))*/
+	flag.Parse()*/
 
 	oneHostApiConfiguration := onehost.NewConfiguration()
-	oneHostApiConfiguration.
-	oneHostApiClient := onehost.NewAPIClient()
+	oneHostApiClient := onehost.NewAPIClient(oneHostApiConfiguration)
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
@@ -54,6 +30,13 @@ func main() {
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("welcome"))
+		resp, r, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UserGet``: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+		}
+		// response from `UserGet`: UserGet200Response
+		fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.UserGet`: %v\n", resp)
 	})
 	http.ListenAndServe(":3000", r)
 }
