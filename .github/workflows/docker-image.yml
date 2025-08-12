@@ -1,10 +1,15 @@
 name: Docker Image CI
 
+#on:
+  #push:
+    #branches: [ "master" ]
+  #pull_request:
+    #branches: [ "master" ]
+
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    tags:
+      - '*.*.*'
 
 jobs:
 
@@ -15,4 +20,25 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build --file ./Dockerfile --tag my-image-name:$(date +%s) .
+      run: docker build -f ./Dockerfile -t my-image:${{ github.ref_name }} .
+     
+    - name: Save Docker image to tar
+      run: docker save my-image:${{ github.ref_name }} -o my-image.tar
+
+    - name: Create GitHub Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
+        body: Automated release for tag ${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload release asset (Docker image tar)
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./my-image.tar
+        asset_name: my-image-${{ github.ref_name }}.tar
+        asset_content_type: application/x-tar
