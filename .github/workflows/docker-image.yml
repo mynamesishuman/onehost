@@ -17,7 +17,7 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       issues: write
     steps:
     - uses: actions/checkout@v4
@@ -38,9 +38,7 @@ jobs:
         body: Automated release for tag ${{ github.ref_name }}
 
     - name: Upload release asset (Docker image tar)
-      uses: actions/upload-release-asset@v1
+      uses: softprops/action-gh-release@v2
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./onehost.tar
-        asset_name: my-image-${{ github.ref_name }}.tar
-        asset_content_type: application/x-tar
+        files: onehost.tar
+        
