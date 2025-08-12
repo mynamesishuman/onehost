@@ -1,0 +1,18 @@
+{
+  "disallowAdditionalPropertiesIfNotPresent": true,
+  "enumClassPrefix": false,
+  "generateInterfaces": false,
+  "generateMarshalJSON": true,
+  "generateUnmarshalJSON": true,
+  "hideGenerationTimestamp": true,
+  "isGoSubmodule": false,
+  "packageName": "onehost",
+  "packageVersion": "0.0.1",
+  "prependFormOrBodyParameters": false,
+  "structPrefix": false,
+  "useDefaultValuesForRequiredVars": false,
+  "useOneOfDiscriminatorLookup": false,
+  "withAWSV4Signature": false,
+  "withGoMod": true,
+  "withXml": false
+}

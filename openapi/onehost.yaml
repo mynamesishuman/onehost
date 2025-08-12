@@ -1,0 +1,384 @@
+openapi: 3.0.3
+info:
+  title: 1Cent.Host API
+  version: 0.0.1
+servers:
+  - url: https://api.1cent.host
+    description: Production server
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: authorization
+      in: header
+paths:
+  "/user/":
+    get:
+      description: ''
+      security:
+        - Bearer: []
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: number
+                  balance:
+                    type: number
+                  discount:
+                    type: number
+  "/server/locations":
+    get:
+      description: ''
+      security:
+        - Bearer: []
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name_en:
+                          type: string
+                        name_ru:
+                          type: string
+                        descr:
+                          type: string
+                        code:
+                          type: string
+                        type:
+                          type: string
+  "/server/{location}/configurations":
+    get:
+      description: ''
+      security:
+        - Bearer: []
+      parameters:
+        - name: location
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  configurations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        type:
+                          type: string
+                        location:
+                          type: string
+                        name:
+                          type: string
+                        windowsDisabled:
+                          type: boolean
+                        specs:
+                          type: object
+                          properties:
+                            cpu:
+                              type: string
+                            ram:
+                              type: string
+                            disk:
+                              type: string
+                        short_specs:
+                          type: string
+                        price:
+                          type: number
+  "/server/purchase":
+    post:
+      description: ''
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                server_id:
+                  type: integer
+                os_id:
+                  type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  "/user/servers/":
+    get:
+      description: ''
+      security:
+        - Bearer: []
+      parameters:
+        - name: offset
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: count
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  servers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        location:
+                          type: string
+                        os:
+                          type: string
+                        price:
+                          type: number
+                        status:
+                          type: string
+                        created_at:
+                          type: string
+                        updated_at:
+                          type: string
+  "/server/{server_id}":
+    get:
+      description: ''
+      security:
+        - Bearer: []
+      parameters:
+        - name: server_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  server:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      type:
+                        type: string
+                      ip:
+                        type: string
+                      login:
+                        type: string
+                      password:
+                        type: string
+                      location:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          flag:
+                            type: string
+                      conf:
+                        type: object
+                        properties:
+                          cpu:
+                            type: string
+                          ram:
+                            type: string
+                          disk:
+                            type: string
+                      price:
+                        type: number
+                      owner:
+                        type: string
+                      os:
+                        type: string
+                      auto_renew:
+                        type: boolean
+                      status:
+                        type: string
+                      start:
+                        type: string
+                      end:
+                        type: string
+  "/server/{server_id}/prolong":
+    post:
+      description: ''
+      security:
+        - Bearer: []
+      parameters:
+        - name: server_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  server:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      location:
+                        type: string
+                      ip:
+                        type: string
+                      login:
+                        type: string
+                      password:
+                        type: string
+                      end_date:
+                        type: string
+                      price:
+                        type: number
+  "/server/{server_id}/reinstall/:os_id":
+    post:
+      description: ''
+      security:
+        - Bearer: []
+      parameters:
+        - name: server_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: os_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  server_id:
+                    type: integer
+                  new_os:
+                    type: string
+  "/server/{server_id}/restart":
+    post:
+      description: ''
+      security:
+        - Bearer: []
+      parameters:
+        - name: server_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  server_id:
+                    type: integer
+  "/server/{server_id}/stop":
+    post:
+      description: ''
+      security:
+        - Bearer: []
+      parameters:
+        - name: server_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  "/server/{server_id}/start":
+    post:
+      description: ''
+      security:
+        - Bearer: []
+      parameters:
+        - name: server_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string

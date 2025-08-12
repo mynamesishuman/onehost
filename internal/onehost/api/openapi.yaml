@@ -1,0 +1,586 @@
+openapi: 3.0.3
+info:
+  title: 1Cent.Host API
+  version: 0.0.1
+servers:
+- description: Production server
+  url: https://api.1cent.host
+paths:
+  /user/:
+    get:
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_user__get_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /server/locations:
+    get:
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server_locations_get_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /server/{location}/configurations:
+    get:
+      description: ""
+      parameters:
+      - explode: false
+        in: path
+        name: location
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server__location__configurations_get_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /server/purchase:
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_server_purchase_post_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server_purchase_post_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /user/servers/:
+    get:
+      description: ""
+      parameters:
+      - explode: true
+        in: query
+        name: offset
+        required: true
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: count
+        required: true
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_user_servers__get_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /server/{server_id}:
+    get:
+      description: ""
+      parameters:
+      - explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server__server_id__get_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /server/{server_id}/prolong:
+    post:
+      description: ""
+      parameters:
+      - explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server__server_id__prolong_post_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /server/{server_id}/reinstall/:os_id:
+    post:
+      description: ""
+      parameters:
+      - explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - explode: false
+        in: path
+        name: os_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server__server_id__reinstall__os_id_post_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /server/{server_id}/restart:
+    post:
+      description: ""
+      parameters:
+      - explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server__server_id__restart_post_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /server/{server_id}/stop:
+    post:
+      description: ""
+      parameters:
+      - explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server_purchase_post_200_response'
+          description: OK
+      security:
+      - Bearer: []
+  /server/{server_id}/start:
+    post:
+      description: ""
+      parameters:
+      - explode: false
+        in: path
+        name: server_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server_purchase_post_200_response'
+          description: OK
+      security:
+      - Bearer: []
+components:
+  schemas:
+    _server__server_id__get_200_response_server_location:
+      example:
+        flag: flag
+        name: name
+      properties:
+        name:
+          type: string
+        flag:
+          type: string
+      type: object
+    _server_locations_get_200_response:
+      example:
+        locations:
+        - descr: descr
+          code: code
+          name_ru: name_ru
+          id: 0
+          type: type
+          name_en: name_en
+        - descr: descr
+          code: code
+          name_ru: name_ru
+          id: 0
+          type: type
+          name_en: name_en
+      properties:
+        locations:
+          items:
+            $ref: '#/components/schemas/_server_locations_get_200_response_locations_inner'
+          type: array
+      type: object
+    _server__location__configurations_get_200_response_configurations_inner_specs:
+      example:
+        disk: disk
+        cpu: cpu
+        ram: ram
+      properties:
+        cpu:
+          type: string
+        ram:
+          type: string
+        disk:
+          type: string
+      type: object
+    _server__server_id__get_200_response_server:
+      example:
+        owner: owner
+        os: os
+        ip: ip
+        start: start
+        conf:
+          disk: disk
+          cpu: cpu
+          ram: ram
+        type: type
+        login: login
+        password: password
+        auto_renew: true
+        price: 6.027456183070403
+        location:
+          flag: flag
+          name: name
+        end: end
+        id: 0
+        status: status
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        ip:
+          type: string
+        login:
+          type: string
+        password:
+          type: string
+        location:
+          $ref: '#/components/schemas/_server__server_id__get_200_response_server_location'
+        conf:
+          $ref: '#/components/schemas/_server__location__configurations_get_200_response_configurations_inner_specs'
+        price:
+          type: number
+        owner:
+          type: string
+        os:
+          type: string
+        auto_renew:
+          type: boolean
+        status:
+          type: string
+        start:
+          type: string
+        end:
+          type: string
+      type: object
+    _server_purchase_post_200_response:
+      example:
+        success: true
+        message: message
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      type: object
+    _server__location__configurations_get_200_response:
+      example:
+        configurations:
+        - specs:
+            disk: disk
+            cpu: cpu
+            ram: ram
+          price: 6.027456183070403
+          name: name
+          short_specs: short_specs
+          location: location
+          id: 0
+          type: type
+          windowsDisabled: true
+        - specs:
+            disk: disk
+            cpu: cpu
+            ram: ram
+          price: 6.027456183070403
+          name: name
+          short_specs: short_specs
+          location: location
+          id: 0
+          type: type
+          windowsDisabled: true
+      properties:
+        configurations:
+          items:
+            $ref: '#/components/schemas/_server__location__configurations_get_200_response_configurations_inner'
+          type: array
+      type: object
+    _server__server_id__prolong_post_200_response:
+      example:
+        server:
+          end_date: end_date
+          password: password
+          price: 6.027456183070403
+          ip: ip
+          location: location
+          id: 0
+          login: login
+        message: message
+      properties:
+        message:
+          type: string
+        server:
+          $ref: '#/components/schemas/_server__server_id__prolong_post_200_response_server'
+      type: object
+    _server_locations_get_200_response_locations_inner:
+      example:
+        descr: descr
+        code: code
+        name_ru: name_ru
+        id: 0
+        type: type
+        name_en: name_en
+      properties:
+        id:
+          type: integer
+        name_en:
+          type: string
+        name_ru:
+          type: string
+        descr:
+          type: string
+        code:
+          type: string
+        type:
+          type: string
+      type: object
+    _user_servers__get_200_response_servers_inner:
+      example:
+        os: os
+        updated_at: updated_at
+        price: 6.027456183070403
+        name: name
+        created_at: created_at
+        location: location
+        id: 0
+        status: status
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        location:
+          type: string
+        os:
+          type: string
+        price:
+          type: number
+        status:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      type: object
+    _user_servers__get_200_response:
+      example:
+        servers:
+        - os: os
+          updated_at: updated_at
+          price: 6.027456183070403
+          name: name
+          created_at: created_at
+          location: location
+          id: 0
+          status: status
+        - os: os
+          updated_at: updated_at
+          price: 6.027456183070403
+          name: name
+          created_at: created_at
+          location: location
+          id: 0
+          status: status
+      properties:
+        servers:
+          items:
+            $ref: '#/components/schemas/_user_servers__get_200_response_servers_inner'
+          type: array
+      type: object
+    _user__get_200_response:
+      example:
+        balance: 6.027456183070403
+        user_id: 0.8008281904610115
+        discount: 1.4658129805029452
+      properties:
+        user_id:
+          type: number
+        balance:
+          type: number
+        discount:
+          type: number
+      type: object
+    _server__server_id__prolong_post_200_response_server:
+      example:
+        end_date: end_date
+        password: password
+        price: 6.027456183070403
+        ip: ip
+        location: location
+        id: 0
+        login: login
+      properties:
+        id:
+          type: integer
+        location:
+          type: string
+        ip:
+          type: string
+        login:
+          type: string
+        password:
+          type: string
+        end_date:
+          type: string
+        price:
+          type: number
+      type: object
+    _server__server_id__restart_post_200_response:
+      example:
+        message: message
+        server_id: 0
+      properties:
+        message:
+          type: string
+        server_id:
+          type: integer
+      type: object
+    _server__location__configurations_get_200_response_configurations_inner:
+      example:
+        specs:
+          disk: disk
+          cpu: cpu
+          ram: ram
+        price: 6.027456183070403
+        name: name
+        short_specs: short_specs
+        location: location
+        id: 0
+        type: type
+        windowsDisabled: true
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        location:
+          type: string
+        name:
+          type: string
+        windowsDisabled:
+          type: boolean
+        specs:
+          $ref: '#/components/schemas/_server__location__configurations_get_200_response_configurations_inner_specs'
+        short_specs:
+          type: string
+        price:
+          type: number
+      type: object
+    _server_purchase_post_request:
+      properties:
+        server_id:
+          type: integer
+        os_id:
+          type: integer
+      type: object
+    _server__server_id__reinstall__os_id_post_200_response:
+      example:
+        new_os: new_os
+        message: message
+        server_id: 0
+      properties:
+        message:
+          type: string
+        server_id:
+          type: integer
+        new_os:
+          type: string
+      type: object
+    _server__server_id__get_200_response:
+      example:
+        server:
+          owner: owner
+          os: os
+          ip: ip
+          start: start
+          conf:
+            disk: disk
+            cpu: cpu
+            ram: ram
+          type: type
+          login: login
+          password: password
+          auto_renew: true
+          price: 6.027456183070403
+          location:
+            flag: flag
+            name: name
+          end: end
+          id: 0
+          status: status
+      properties:
+        server:
+          $ref: '#/components/schemas/_server__server_id__get_200_response_server'
+      type: object
+  securitySchemes:
+    Bearer:
+      in: header
+      name: authorization
+      type: apiKey
