@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 	"srv/internal/rest"
-	onehost "github.com/GIT_USER_ID/GIT_REPO_ID"
+	onehost "github.com/mynamesishuman/onehost"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )

@@ -2,8 +2,8 @@
 
 ```
 docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
--i /local/openapi/onehost.yaml \
+-i /local/openapi/scheme/onehost.yaml \
 -g go \
--o /local/internal/onehost \
--c /local/openapi/config.json
+-o /local/openapi/client/onehost \
+-c /local/openapi/scheme/config.json
 ```
