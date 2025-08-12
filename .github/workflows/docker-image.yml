@@ -10,6 +10,9 @@ on:
   push:
     tags:
       - '*.*.*'
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
 
@@ -17,24 +20,27 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      issues: write
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build -f ./Dockerfile -t onehost:${{ github.ref_name }} .
-     
-    - name: Save Docker image to tar
-      run: docker save onehost:${{ github.ref_name }} -o onehost.tar
+      #run: docker build -f ./Dockerfile -t onehost:${{ github.ref_name }} .
 
-    - name: Create or update GitHub Release
-      uses: softprops/action-gh-release@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref_name }}
-        name: Release ${{ github.ref_name }}
-        body: Automated release for tag ${{ github.ref_name }}
-        draft: false
-        prerelease: false
-        files: onehost.tar
+    - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+     
+    - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
