@@ -25,25 +25,26 @@ jobs:
       attestations: write
       id-token: write
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      #run: docker build -f ./Dockerfile -t onehost:${{ github.ref_name }} .
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        #- name: Build the Docker image
+        #run: docker build -f ./Dockerfile -t onehost:${{ github.ref_name }} .
 
-    - name: Log in to the Container registry
-      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
      
-    - name: Build and push Docker images
-      id: push
-      uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-      with:
-        context: .
-        push: true
-        tags: ${{ github.ref_name }}
-        labels: onehost:${{ github.ref_name }}
+      - name: Build and push Docker images
+        id: push
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          push: true
+          tags: ${{ github.ref_name }}
+          labels: onehost:${{ github.ref_name }}
 
     #- name: Generate artifact attestation
     #  uses: actions/attest-build-provenance@v2
