@@ -456,16 +456,16 @@ components:
       type: object
     _user__get_200_response:
       example:
-        balance: 6.027456183070403
-        user_id: 0.8008281904610115
-        discount: 1.4658129805029452
+        balance: 0.8008281904610115
+        user_id: user_id
+        discount: discount
       properties:
         user_id:
-          type: number
+          type: string
         balance:
           type: number
         discount:
-          type: number
+          type: string
       type: object
     _server__server_id__prolong_post_200_response_server:
       example:

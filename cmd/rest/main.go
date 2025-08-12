@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
@@ -12,14 +13,14 @@ import (
 )
 
 func main() {
-	/*var (
-		baseUrl = flag.String("baseUrl", "", "Base URL")
-		token   = flag.String("token", "", "Token")
+	var (
+		token = flag.String("token", "", "Token")
 	)
 
-	flag.Parse()*/
+	flag.Parse()
 
 	oneHostApiConfiguration := onehost.NewConfiguration()
+	oneHostApiConfiguration.AddDefaultHeader("Authorization", "Bearer "+*token)
 	oneHostApiClient := onehost.NewAPIClient(oneHostApiConfiguration)
 
 	r := chi.NewRouter()
@@ -30,13 +31,16 @@ func main() {
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("welcome"))
-		resp, r, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
+		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
+
+		fmt.Println(response.StatusCode)
+
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UserGet``: %v\n", err)
 			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 		}
 		// response from `UserGet`: UserGet200Response
-		fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.UserGet`: %v\n", resp)
+		fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.UserGet`: %v\n", data.GetUserId())
 	})
 	http.ListenAndServe(":3000", r)
 }

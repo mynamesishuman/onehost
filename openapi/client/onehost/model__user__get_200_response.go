@@ -19,9 +19,9 @@ var _ MappedNullable = &UserGet200Response{}
 
 // UserGet200Response struct for UserGet200Response
 type UserGet200Response struct {
-	UserId *float32 `json:"user_id,omitempty"`
+	UserId *string `json:"user_id,omitempty"`
 	Balance *float32 `json:"balance,omitempty"`
-	Discount *float32 `json:"discount,omitempty"`
+	Discount *string `json:"discount,omitempty"`
 }
 
 // NewUserGet200Response instantiates a new UserGet200Response object
@@ -42,9 +42,9 @@ func NewUserGet200ResponseWithDefaults() *UserGet200Response {
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
-func (o *UserGet200Response) GetUserId() float32 {
+func (o *UserGet200Response) GetUserId() string {
 	if o == nil || IsNil(o.UserId) {
-		var ret float32
+		var ret string
 		return ret
 	}
 	return *o.UserId
@@ -52,7 +52,7 @@ func (o *UserGet200Response) GetUserId() float32 {
 
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UserGet200Response) GetUserIdOk() (*float32, bool) {
+func (o *UserGet200Response) GetUserIdOk() (*string, bool) {
 	if o == nil || IsNil(o.UserId) {
 		return nil, false
 	}
@@ -68,8 +68,8 @@ func (o *UserGet200Response) HasUserId() bool {
 	return false
 }
 
-// SetUserId gets a reference to the given float32 and assigns it to the UserId field.
-func (o *UserGet200Response) SetUserId(v float32) {
+// SetUserId gets a reference to the given string and assigns it to the UserId field.
+func (o *UserGet200Response) SetUserId(v string) {
 	o.UserId = &v
 }
 
@@ -106,9 +106,9 @@ func (o *UserGet200Response) SetBalance(v float32) {
 }
 
 // GetDiscount returns the Discount field value if set, zero value otherwise.
-func (o *UserGet200Response) GetDiscount() float32 {
+func (o *UserGet200Response) GetDiscount() string {
 	if o == nil || IsNil(o.Discount) {
-		var ret float32
+		var ret string
 		return ret
 	}
 	return *o.Discount
@@ -116,7 +116,7 @@ func (o *UserGet200Response) GetDiscount() float32 {
 
 // GetDiscountOk returns a tuple with the Discount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UserGet200Response) GetDiscountOk() (*float32, bool) {
+func (o *UserGet200Response) GetDiscountOk() (*string, bool) {
 	if o == nil || IsNil(o.Discount) {
 		return nil, false
 	}
@@ -132,8 +132,8 @@ func (o *UserGet200Response) HasDiscount() bool {
 	return false
 }
 
-// SetDiscount gets a reference to the given float32 and assigns it to the Discount field.
-func (o *UserGet200Response) SetDiscount(v float32) {
+// SetDiscount gets a reference to the given string and assigns it to the Discount field.
+func (o *UserGet200Response) SetDiscount(v string) {
 	o.Discount = &v
 }
 

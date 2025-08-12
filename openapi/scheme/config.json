@@ -5,7 +5,7 @@
   "generateMarshalJSON": true,
   "generateUnmarshalJSON": true,
   "hideGenerationTimestamp": true,
-  "isGoSubmodule": true,
+  "isGoSubmodule": false,
   "packageName": "onehost",
   "packageVersion": "0.0.1",
   "prependFormOrBodyParameters": false,

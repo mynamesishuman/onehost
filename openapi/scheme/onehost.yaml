@@ -27,11 +27,11 @@ paths:
                 type: object
                 properties:
                   user_id:
-                    type: number
+                    type: string
                   balance:
                     type: number
                   discount:
-                    type: number
+                    type: string
   "/server/locations":
     get:
       description: ''

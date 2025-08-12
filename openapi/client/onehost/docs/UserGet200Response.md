@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**UserId** | Pointer to **float32** |  | [optional] 
+**UserId** | Pointer to **string** |  | [optional] 
 **Balance** | Pointer to **float32** |  | [optional] 
-**Discount** | Pointer to **float32** |  | [optional] 
+**Discount** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetUserId
 
-`func (o *UserGet200Response) GetUserId() float32`
+`func (o *UserGet200Response) GetUserId() string`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *UserGet200Response) GetUserIdOk() (*float32, bool)`
+`func (o *UserGet200Response) GetUserIdOk() (*string, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *UserGet200Response) SetUserId(v float32)`
+`func (o *UserGet200Response) SetUserId(v string)`
 
 SetUserId sets UserId field to given value.
 
@@ -79,20 +79,20 @@ HasBalance returns a boolean if a field has been set.
 
 ### GetDiscount
 
-`func (o *UserGet200Response) GetDiscount() float32`
+`func (o *UserGet200Response) GetDiscount() string`
 
 GetDiscount returns the Discount field if non-nil, zero value otherwise.
 
 ### GetDiscountOk
 
-`func (o *UserGet200Response) GetDiscountOk() (*float32, bool)`
+`func (o *UserGet200Response) GetDiscountOk() (*string, bool)`
 
 GetDiscountOk returns a tuple with the Discount field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDiscount
 
-`func (o *UserGet200Response) SetDiscount(v float32)`
+`func (o *UserGet200Response) SetDiscount(v string)`
 
 SetDiscount sets Discount field to given value.
 
