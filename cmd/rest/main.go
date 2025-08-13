@@ -3,12 +3,11 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/render"
 	onehost "github.com/mynamesishuman/onehost/openapi/client/onehost"
 )
 
@@ -28,20 +27,24 @@ func main() {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(render.SetContentType(render.ContentTypeJSON))
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("welcome"))
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
 
-		fmt.Println(response.StatusCode)
-		fmt.Println(err, response.Status)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UserGet``: %v\n", err)
-			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+			switch response.StatusCode {
+			case http.StatusUnauthorized:
+				http.Error(w, err.Error(), http.StatusUnauthorized)
+			default:
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+			return
 		}
 
-		// response from `UserGet`: UserGet200Response
-		fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.UserGet`: %v\n", data.GetUserId())
+		render.Status(r, http.StatusOK)
+		render.JSON(w, r, data)
 	})
 	http.ListenAndServe(":3000", r)
 }
