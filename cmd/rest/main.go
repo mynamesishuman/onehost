@@ -34,11 +34,12 @@ func main() {
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
 
 		fmt.Println(response.StatusCode)
-
+		fmt.Println(err, response.Status)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.UserGet``: %v\n", err)
 			fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 		}
+
 		// response from `UserGet`: UserGet200Response
 		fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.UserGet`: %v\n", data.GetUserId())
 	})
