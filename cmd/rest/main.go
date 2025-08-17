@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
+	"embed"
 	"flag"
-	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -11,6 +11,9 @@ import (
 	"github.com/go-chi/render"
 	onehost "github.com/mynamesishuman/onehost/pkg/onehost"
 )
+
+//go:embed ./out/*
+var staticContent embed.FS
 
 func main() {
 	var (
@@ -30,10 +33,11 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	r.Handle("/static/*", http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
+
+	r.Get("/user", func(w http.ResponseWriter, r *http.Request) {
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
 
-		fmt.Println(data)
 		if err != nil {
 			switch response.StatusCode {
 			case http.StatusUnauthorized:
