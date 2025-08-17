@@ -1,0 +1,25 @@
+services:
+  onehost:
+    image: ghcr.io/mynamesishuman/onehost:latest
+    container_name: onehost
+    restart: unless-stopped
+    build:
+      context: .
+      args:
+        - APP_TOKEN=${APP_TOKEN}
+    command: app --token=${APP_token}
+    ports:
+      - "4444:4444"
+    networks:
+      private:
+        ipv4_address: 10.0.0.10
+
+networks:
+  public:
+    driver: bridge
+  private:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+          gateway: 10.0.0.1

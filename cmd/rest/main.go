@@ -8,7 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
-	onehost "github.com/mynamesishuman/onehost/openapi/client/onehost"
+	onehost "github.com/mynamesishuman/onehost/pkg/onehost"
 )
 
 func main() {
@@ -30,7 +30,6 @@ func main() {
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
 
 		if err != nil {
