@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -32,6 +33,7 @@ func main() {
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
 
+		fmt.Println(data)
 		if err != nil {
 			switch response.StatusCode {
 			case http.StatusUnauthorized:
