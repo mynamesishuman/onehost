@@ -41,7 +41,7 @@ func main() {
 	}
 
 	// Mount the file server at /static/
-	r.Mount("/", http.StripPrefix("/frontend/", http.FileServer(http.FS(staticFS))))
+	r.Mount("/", http.FileServer(http.FS(staticFS)))
 
 	r.Get("/user", func(w http.ResponseWriter, r *http.Request) {
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
