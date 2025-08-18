@@ -15,7 +15,7 @@ WORKDIR /srv
 COPY go.mod go.sum ./
 RUN go mod download
 COPY ./ .
-COPY --from=nextbuilder /static/out/ ./cmd/rest/static/
+COPY --from=nextbuilder /static/out/ ./cmd/rest/frontend/
 RUN echo $(ls -la /srv/cmd/rest/static)
 
 RUN go build -o app cmd/rest/main.go

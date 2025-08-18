@@ -14,7 +14,7 @@ import (
 	onehost "github.com/mynamesishuman/onehost/pkg/onehost"
 )
 
-//go:embed static/*
+//go:embed frontend/*
 var staticContent embed.FS
 
 func main() {
@@ -35,7 +35,7 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
-	root, err := fs.Sub(staticContent, "static")
+	root, err := fs.Sub(staticContent, "frontend")
 	if err != nil {
 		log.Fatal(err)
 	}
