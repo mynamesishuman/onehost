@@ -12,7 +12,7 @@ import (
 	onehost "github.com/mynamesishuman/onehost/pkg/onehost"
 )
 
-//go:embed ./out/*
+//go:embed ./static/*
 var staticContent embed.FS
 
 func main() {
@@ -33,7 +33,7 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
-	r.Handle("/static/*", http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
+	r.Handle("/static/*", http.StripPrefix("/", http.FileServer(http.Dir("./"))))
 
 	r.Get("/user", func(w http.ResponseWriter, r *http.Request) {
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
