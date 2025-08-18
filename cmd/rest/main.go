@@ -35,12 +35,13 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
-	root, err := fs.Sub(staticContent, "frontend")
+	staticFS, err := fs.Sub(staticContent, "frontend")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	r.Handle("/", http.FileServer(http.FS(root)))
+	// Mount the file server at /static/
+	r.Mount("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(staticFS))))
 
 	r.Get("/user", func(w http.ResponseWriter, r *http.Request) {
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
