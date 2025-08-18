@@ -33,7 +33,7 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
-	r.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("./"))))
+	r.Handle("/", http.FileServer(http.Dir("./static/")))
 
 	r.Get("/user", func(w http.ResponseWriter, r *http.Request) {
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
