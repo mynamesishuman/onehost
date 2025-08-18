@@ -4,6 +4,8 @@ import (
 	"context"
 	"embed"
 	"flag"
+	"io/fs"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -33,16 +35,14 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
-	/*staticFS, err := fs.Sub(staticContent, "frontend")
+	staticFS, err := fs.Sub(staticContent, "frontend")
 	if err != nil {
 		log.Fatal(err)
-	}*/
+	}
 
-	// Mount the file server at /static/
-	//r.Mount("/", http.FileServer(http.FS(staticFS)))
-	r.Mount("/", http.FileServer(http.FS(staticContent)))
+	r.Mount("/", http.FileServer(http.FS(staticFS)))
 
-	r.Get("/user", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/api/v1/user", func(w http.ResponseWriter, r *http.Request) {
 		data, response, err := oneHostApiClient.DefaultAPI.UserGet(context.Background()).Execute()
 
 		if err != nil {
