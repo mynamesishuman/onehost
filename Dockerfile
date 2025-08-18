@@ -16,6 +16,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY ./ .
 COPY --from=nextbuilder /app/out ./cmd/rest/static
+RUN echo $(ls -1 /srv/cmd/rest/static)
 
 RUN go build -o app cmd/rest/main.go
 FROM alpine:3.22.1
